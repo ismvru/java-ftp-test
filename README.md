@@ -12,14 +12,24 @@
 mvn clean package
 ```
 
+## Артефакты
+
+* `target/ftptest-VERSION-jar-with-dependencies.jar` - JAR со всеми зависимостями
+* `target/ftptest-VERSION.jar` - JAR без зависимостей
+
+**WARN** для использования JAR без зависимостей нужно, что бы в classpath были все зависимости из `pom.xml` (см. project.dependencies)
+
 ## Использование
 
 ```bash
-java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d]
+java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d] [-fo] [-fso] [-sfo]
  -d,--debug               Enable debug output
- -n,--port-number <arg>   FTP Port (Only for FTP and FTPS. Not sFTP)
+ -fo,--ftp-only           Make request for plane FTP only
+ -fso,--ftps-only         Make request for FTPs only
+ -n,--port-number <arg>   FTP Port
  -p,--password <arg>      FTP Password
  -s,--server <arg>        Server DNS address or IP
+ -sfo,--sftp-only         Make request for SFTP only
  -u,--user <arg>          FTP Username
 ```
 
