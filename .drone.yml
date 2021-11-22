@@ -1,0 +1,39 @@
+---
+kind: pipeline
+type: docker
+name: default
+steps:
+  - name: create settings.xml
+    image: alpine:latest
+    when:
+      event:
+        - tag
+    environment:
+      REPO_ID: nexus
+      REPO_USERNAME:
+        from_secret: nexus_user
+      REPO_PASSWORD:
+        from_secret: nexus_pass
+    commands:
+      - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"><servers><server><id>'$REPO_ID'</id><username>'$REPO_USERNAME'</username><password>'$REPO_PASSWORD'</password></server></servers></settings>' > settings.xml
+
+  - name: Build and deploy JAR - JDK8
+    image: maven:3-jdk-8
+    when:
+      event:
+        - tag
+    commands:
+      - mvn clean install -B
+      - mvn deploy -B -gs settings.xml
+
+  - name: send tg message
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: tg_token
+      to:
+        from_secret: tg_to
+    when:
+      status:
+        - success
+        - failure
