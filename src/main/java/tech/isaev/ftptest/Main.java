@@ -34,10 +34,10 @@ public class Main {
     }
 
     // SFTP (SSH)
-    private static void sftp(String server, String user, String password) throws IOException {
+    private static void sftp(String server, Integer port, String user, String password) throws IOException {
         SSHClient sftp_client = new SSHClient();
         sftp_client.addHostKeyVerifier(new PromiscuousVerifier());
-        sftp_client.connect(server);
+        sftp_client.connect(server, port);
         sftp_client.authPassword(user, password);
         sftp_client.close();
     }
@@ -63,14 +63,29 @@ public class Main {
         options.addOption(password);
 
         // FTP port
-        Option port = new Option("n", "port-number", true, "FTP Port (Only for FTP and FTPS. Not sFTP)");
+        Option port = new Option("n", "port-number", true, "FTP Port");
         port.setRequired(false);
         options.addOption(port);
 
         // Debug
-        Option debug = new Option("d", "debug", false, "Enable debug output");
-        debug.setRequired(false);
-        options.addOption(debug);
+        Option debug_flag = new Option("d", "debug", false, "Enable debug output");
+        debug_flag.setRequired(false);
+        options.addOption(debug_flag);
+
+        // Plain FTP only
+        Option ftp_flag = new Option("ftp-only", false, "Make request for plane FTP only");
+        ftp_flag.setRequired(false);
+        options.addOption(ftp_flag);
+
+        // FTPs only
+        Option ftps_flag = new Option("ftps-only", false, "Make request for FTPs only");
+        ftps_flag.setRequired(false);
+        options.addOption(ftps_flag);
+
+        // FTPs only
+        Option sftp_flag = new Option("sftp-only", false, "Make request for SFTP only");
+        sftp_flag.setRequired(false);
+        options.addOption(sftp_flag);
 
         // Parse options
         CommandLineParser parser = new DefaultParser();
@@ -90,53 +105,73 @@ public class Main {
         String ftp_password = cmd.getOptionValue("password");
 
         // Get optional port name, if not passed - default == 21
-        int ftp_port;
+        int ftp_port, sftp_port;
         try {
             ftp_port = Integer.parseInt(cmd.getOptionValue("port-number"));
+            sftp_port = ftp_port;
         } catch (java.lang.NumberFormatException e) {
             ftp_port = 21;
+            sftp_port = 22;
         }
 
         // If we see -d key - enable debug. Need more debug.
-        boolean log_debug = cmd.hasOption("d");
-        if (log_debug == Boolean.TRUE) {
-            System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "TRACE");
+        if (cmd.hasOption("d")) {
+            System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        }
+
+        // We can decide what to do.
+        boolean do_ftp = Boolean.TRUE, do_ftps = Boolean.TRUE, do_sftp = Boolean.TRUE;
+        if (cmd.hasOption("ftp-only")) {
+            do_ftps = Boolean.FALSE;
+            do_sftp = Boolean.FALSE;
+        }
+        if (cmd.hasOption("ftps-only")) {
+            do_ftp = Boolean.FALSE;
+            do_sftp = Boolean.FALSE;
+        }
+        if (cmd.hasOption("sftp-only")) {
+            do_ftp = Boolean.FALSE;
+            do_ftps = Boolean.FALSE;
         }
 
         // We need to init logger
         final Logger logger = LoggerFactory.getLogger(Main.class);
 
         // Main app work
-        logger.info("Connect as " + ftp_user + " to " + ftp_server + ":" + ftp_port);
+        logger.info("Connect as " + ftp_user + " to " + ftp_server + ":" + ftp_port + " FTP(s) and to " + ftp_server + ":" + sftp_port + " SFTP");
 
         // Plain FTP
-        try {
-            logger.info("Plain FTP");
-            ftp(ftp_server, ftp_port, ftp_user, ftp_password);
-            logger.info("Plain FTP - " + ANSI_GREEN + "OK" + ANSI_RESET);
-        } catch (IOException e) {
-            logger.error("Plain FTP - " + ANSI_RED + "FAILED" + ANSI_RESET);
-            logger.debug(Arrays.toString(e.getStackTrace()));
+        if (do_ftp) {
+            try {
+                logger.info("Plain FTP");
+                ftp(ftp_server, ftp_port, ftp_user, ftp_password);
+                logger.info("Plain FTP - " + ANSI_GREEN + "OK" + ANSI_RESET);
+            } catch (IOException e) {
+                logger.error("Plain FTP - " + ANSI_RED + "FAILED" + ANSI_RESET);
+                logger.debug(Arrays.toString(e.getStackTrace()));
+            }
         }
-
         // FTP with SSL/TLS
-        try {
-            logger.info("FTP with SSL/TLS");
-            ftps(ftp_server, ftp_port, ftp_user, ftp_password);
-            logger.info("FTP with SSL/TLS - " + ANSI_GREEN + "OK" + ANSI_RESET);
-        } catch (IOException e) {
-            logger.error("FTP with SSL/TLS - " + ANSI_RED + "FAILED" + ANSI_RESET);
-            logger.debug(Arrays.toString(e.getStackTrace()));
+        if (do_ftps) {
+            try {
+                logger.info("FTP with SSL/TLS");
+                ftps(ftp_server, ftp_port, ftp_user, ftp_password);
+                logger.info("FTP with SSL/TLS - " + ANSI_GREEN + "OK" + ANSI_RESET);
+            } catch (IOException e) {
+                logger.error("FTP with SSL/TLS - " + ANSI_RED + "FAILED" + ANSI_RESET);
+                logger.debug(Arrays.toString(e.getStackTrace()));
+            }
         }
-
         // SFTP
-        try {
-            logger.info("SFTP");
-            sftp(ftp_server, ftp_user, ftp_password);
-            logger.info("SFTP - " + ANSI_GREEN + "OK" + ANSI_RESET);
-        } catch (IOException e) {
-            logger.error("SFTP - " + ANSI_RED + "FAILED" + ANSI_RESET);
-            logger.debug(Arrays.toString(e.getStackTrace()));
+        if (do_sftp) {
+            try {
+                logger.info("SFTP");
+                sftp(ftp_server, sftp_port, ftp_user, ftp_password);
+                logger.info("SFTP - " + ANSI_GREEN + "OK" + ANSI_RESET);
+            } catch (IOException e) {
+                logger.error("SFTP - " + ANSI_RED + "FAILED" + ANSI_RESET);
+                logger.debug(Arrays.toString(e.getStackTrace()));
+            }
         }
     }
 }
