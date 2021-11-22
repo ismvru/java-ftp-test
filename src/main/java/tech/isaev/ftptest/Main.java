@@ -106,7 +106,8 @@ public class Main {
         String ftpPassword = cmd.getOptionValue("password");
 
         // Get optional port name, if not passed - default == 21
-        int ftpPort, sftpPort;
+        int ftpPort;
+        int sftpPort;
         try {
             ftpPort = Integer.parseInt(cmd.getOptionValue("port-number"));
             sftpPort = ftpPort;
