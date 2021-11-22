@@ -32,6 +32,7 @@ steps:
       REPO_PASSWORD:
         from_secret: nexus_pass
     commands:
+      # yamllint disable-line rule:line-length
       - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"><servers><server><id>'$REPO_ID'</id><username>'$REPO_USERNAME'</username><password>'$REPO_PASSWORD'</password></server></servers></settings>' > settings.xml
 
   - name: Build and deploy JAR - JDK8
