@@ -73,17 +73,17 @@ public class Main {
         options.addOption(debug_flag);
 
         // Plain FTP only
-        Option ftp_flag = new Option("ftp-only", false, "Make request for plane FTP only");
+        Option ftp_flag = new Option("fo", "ftp-only", false, "Make request for plane FTP only");
         ftp_flag.setRequired(false);
         options.addOption(ftp_flag);
 
         // FTPs only
-        Option ftps_flag = new Option("ftps-only", false, "Make request for FTPs only");
+        Option ftps_flag = new Option("fso", "ftps-only", false, "Make request for FTPs only");
         ftps_flag.setRequired(false);
         options.addOption(ftps_flag);
 
         // FTPs only
-        Option sftp_flag = new Option("sftp-only", false, "Make request for SFTP only");
+        Option sftp_flag = new Option("sfo", "sftp-only", false, "Make request for SFTP only");
         sftp_flag.setRequired(false);
         options.addOption(sftp_flag);
 
