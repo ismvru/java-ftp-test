@@ -1,5 +1,15 @@
 # java-ftp-test
 
+[![Build Status](https://ci.isaev.tech/api/badges/IsaevTech/java-ftp-test/status.svg)](https://ci.isaev.tech/IsaevTech/java-ftp-test)
+
+[![Ошибки](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=bugs)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
+
+[![Дефекты кода](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=code_smells)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
+
+[![Уязвимости](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=vulnerabilities)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
+
+[![Статус порога качества](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=alert_status)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
+
 Проверяет, какой протокол мы используем
 
 * FTP
