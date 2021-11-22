@@ -16,6 +16,7 @@ public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
+
     // Plain FTP
     private static void ftp(String server, Integer port, String user, String password) throws IOException {
         FTPClient ftp_client = new FTPClient();
@@ -23,6 +24,7 @@ public class Main {
         ftp_client.login(user, password);
         ftp_client.disconnect();
     }
+
     // FTP with SSL
     private static void ftps(String server, Integer port, String user, String password) throws IOException {
         FTPSClient ftps_client = new FTPSClient(true);
@@ -30,6 +32,7 @@ public class Main {
         ftps_client.login(user, password);
         ftps_client.disconnect();
     }
+
     // SFTP (SSH)
     private static void sftp(String server, String user, String password) throws IOException {
         SSHClient sftp_client = new SSHClient();
@@ -38,6 +41,7 @@ public class Main {
         sftp_client.authPassword(user, password);
         sftp_client.close();
     }
+
     // Main class
     public static void main(String[] args) {
         // Parse arguments

@@ -15,7 +15,7 @@ mvn clean package
 ## Использование
 
 ```bash
-java -jar ./ftptest-1.0-SNAPSHOT-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d]
+java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d]
  -d,--debug               Enable debug output
  -n,--port-number <arg>   FTP Port (Only for FTP and FTPS. Not sFTP)
  -p,--password <arg>      FTP Password
@@ -25,7 +25,8 @@ java -jar ./ftptest-1.0-SNAPSHOT-jar-with-dependencies.jar -s ftp.example.com -u
 
 Пример вывода
 
-```text
+```bash
+java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
 [main] INFO tech.isaev.ftptest.Main - Connect as user to 127.0.0.1:21
 [main] INFO tech.isaev.ftptest.Main - Plain FTP
 [main] ERROR tech.isaev.ftptest.Main - Plain FTP - [31mFAILED[0m
