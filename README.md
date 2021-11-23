@@ -31,7 +31,7 @@ mvn clean package
 ```bash
 java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d] [-fo] [-fso] [-sfo]
  -d,--debug               Enable debug output
- -fo,--ftp-only           Make request for plane FTP only
+ -fo,--ftp-only           Make request for plain FTP only
  -fso,--ftps-only         Make request for FTPs only
  -n,--port-number <arg>   FTP Port
  -p,--password <arg>      FTP Password

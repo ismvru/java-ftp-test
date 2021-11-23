@@ -84,7 +84,7 @@ public class Main {
     options.addOption(debugFlag);
 
     // Plain FTP only
-    Option ftpFlag = new Option("fo", "ftp-only", false, "Make request for plane FTP only");
+    Option ftpFlag = new Option("fo", "ftp-only", false, "Make request for plain FTP only");
     ftpFlag.setRequired(false);
     options.addOption(ftpFlag);
 
