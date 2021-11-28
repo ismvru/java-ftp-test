@@ -58,7 +58,7 @@ steps:
       - mvn -f pom-11.xml clean install -B
       - mvn deploy -B -gs settings.xml
 
-  - name: Build and deploy JAR - JDK11
+  - name: Build and deploy JAR - JDK17
     image: maven:3-openjdk-17
     when:
       event:
