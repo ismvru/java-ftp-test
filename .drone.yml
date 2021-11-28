@@ -3,6 +3,11 @@ kind: pipeline
 type: docker
 name: default
 steps:
+  - name: Lint Docker
+    image: repo.isaev.tech/hadolint:latest
+    commands:
+      - lint
+
   - name: Lint Yaml
     image: repo.isaev.tech/yamllint:latest
     commands:
@@ -69,6 +74,58 @@ steps:
       - cp -f pom-17.xml pom.xml
       - mvn clean install -B
       - mvn deploy -B -gs settings.xml
+
+  - name: Build and push docker - JDK8
+    image: plugins/docker
+    when:
+      event:
+        - tag
+    settings:
+      username:
+        from_secret: nexus_user
+      password:
+        from_secret: nexus_pass
+      repo: repo.isaev.tech/${DRONE_REPO_NAME}
+      registry: repo.isaev.tech
+      dockerfile: Dockerfile-1.8
+      tags:
+        - 8
+        - ${DRONE_TAG}-8
+
+  - name: Build and push docker - JDK11
+    image: plugins/docker
+    when:
+      event:
+        - tag
+    settings:
+      username:
+        from_secret: nexus_user
+      password:
+        from_secret: nexus_pass
+      repo: repo.isaev.tech/${DRONE_REPO_NAME}
+      registry: repo.isaev.tech
+      dockerfile: Dockerfile-11
+      tags:
+        - 11
+        - ${DRONE_TAG}-11
+
+  - name: Build and push docker - JDK17
+    image: plugins/docker
+    when:
+      event:
+        - tag
+    settings:
+      username:
+        from_secret: nexus_user
+      password:
+        from_secret: nexus_pass
+      repo: repo.isaev.tech/${DRONE_REPO_NAME}
+      registry: repo.isaev.tech
+      dockerfile: Dockerfile-17
+      tags:
+        - 17
+        - ${DRONE_TAG}-17
+        - latest
 
   - name: send tg message
     image: appleboy/drone-telegram
