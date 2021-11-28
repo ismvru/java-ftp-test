@@ -1,8 +1,8 @@
 package tech.isaev.ftptest;
 
 import java.io.IOException;
-import java.util.Arrays;
 import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,8 +13,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPSClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // Main class. Just execute it.
 public class Main {
@@ -27,30 +25,50 @@ public class Main {
 
   // Plain FTP
   private static void ftp(String server, Integer port,
-                          String user, String password) throws IOException {
+                          String user, String password, Boolean verbose) throws IOException {
+    if (verbose) System.out.println("FTP: Init FTP Client");
     FTPClient ftpClient = new FTPClient();
+    if (verbose) System.out.println("FTP: Connect to FTP");
     ftpClient.connect(server, port);
+    if (verbose) System.out.println("FTP: Login to FTP");
     ftpClient.login(user, password);
+    if (verbose) System.out.println("FTP: Disconnect from FTP");
     ftpClient.disconnect();
   }
 
   // FTP with SSL
   private static void ftps(String server, Integer port,
-                           String user, String password) throws IOException {
+                           String user, String password, Boolean verbose) throws IOException {
+    if (verbose) System.out.println("FTPS: Init FTPS Client");
     FTPSClient ftpsClient = new FTPSClient(true);
+    if (verbose) System.out.println("FTPS: Connect to FTPS");
     ftpsClient.connect(server, port);
+    if (verbose) System.out.println("FTPS: Login to FTPS");
     ftpsClient.login(user, password);
+    if (verbose) System.out.println("FTPS: Disconnect from FTPS");
     ftpsClient.disconnect();
   }
 
   // SFTP (SSH)
   private static void sftp(String server, Integer port,
-                           String user, String password) throws IOException {
-    SSHClient sftpClient = new SSHClient();
-    sftpClient.addHostKeyVerifier(new PromiscuousVerifier());
-    sftpClient.connect(server, port);
-    sftpClient.authPassword(user, password);
+                           String user, String password, Boolean verbose) throws IOException {
+    if (verbose) System.out.println("SFTP: Init SSH Client");
+    SSHClient sshClient = new SSHClient();
+    sshClient.setTimeout(5);
+    sshClient.setConnectTimeout(5);
+    sshClient.addHostKeyVerifier(new PromiscuousVerifier());
+    if (verbose) System.out.println("SFTP: Connect to SSH");
+    sshClient.connect(server, port);
+    if (verbose) System.out.println("SFTP: Login to SFTP");
+    sshClient.authPassword(user, password);
+    if (verbose) System.out.println("SFTP: Init SFTP Client");
+    SFTPClient sftpClient = sshClient.newSFTPClient();
+    if (verbose) System.out.println("SFTP: ls /");
+    sftpClient.ls("/");
+    if (verbose) System.out.println("SFTP: Disconnect from SFTP");
     sftpClient.close();
+    if (verbose) System.out.println("SFTP: Disconnect from SSH");
+    sshClient.close();
   }
 
   // Main class
@@ -79,9 +97,9 @@ public class Main {
     options.addOption(port);
 
     // Debug
-    Option debugFlag = new Option("d", "debug", false, "Enable debug output");
-    debugFlag.setRequired(false);
-    options.addOption(debugFlag);
+    Option verboseFlag = new Option("v", "verbose", false, "Enable verbose output");
+    verboseFlag.setRequired(false);
+    options.addOption(verboseFlag);
 
     // Plain FTP only
     Option ftpFlag = new Option("fo", "ftp-only", false, "Make request for plain FTP only");
@@ -125,9 +143,12 @@ public class Main {
       sftpPort = 22;
     }
 
-    // If we see -d key - enable debug. Need more debug.
-    if (cmd.hasOption("d")) {
-      System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+    // More verbose output
+    Boolean verbose;
+    if (cmd.hasOption("v")) {
+      verbose = Boolean.TRUE;
+    } else {
+      verbose = Boolean.FALSE;
     }
 
     // We can decide what to do.
@@ -146,45 +167,39 @@ public class Main {
       doFtp = Boolean.FALSE;
       doFtps = Boolean.FALSE;
     }
-
-    // We need to init logger
-    final Logger logger = LoggerFactory.getLogger(Main.class);
-
+    
     // Main app work
-    logger.info("Connect as " + ftpUser + " to " + ftpServer + ":"
+    System.out.println("Connect as " + ftpUser + " to " + ftpServer + ":"
         + ftpPort + " FTP(s) and to " + ftpServer + ":" + sftpPort + " SFTP");
 
     // Plain FTP
     if (doFtp) {
       try {
-        logger.info("Plain FTP");
-        ftp(ftpServer, ftpPort, ftpUser, ftpPassword);
-        logger.info("Plain FTP - " + STATUS_OK);
+        System.out.println("===== Plain FTP =====");
+        ftp(ftpServer, ftpPort, ftpUser, ftpPassword, verbose);
+        System.out.println("Plain FTP - " + STATUS_OK);
       } catch (IOException e) {
-        logger.error("Plain FTP - " + STATUS_FAILED);
-        logger.debug(Arrays.toString(e.getStackTrace()));
+        System.out.println("Plain FTP - " + STATUS_FAILED);
       }
     }
     // FTP with SSL/TLS
     if (doFtps) {
       try {
-        logger.info("FTP with SSL/TLS");
-        ftps(ftpServer, ftpPort, ftpUser, ftpPassword);
-        logger.info("FTP with SSL/TLS - " + STATUS_OK);
+        System.out.println("===== FTP with SSL/TLS =====");
+        ftps(ftpServer, ftpPort, ftpUser, ftpPassword, verbose);
+        System.out.println("FTP with SSL/TLS - " + STATUS_OK);
       } catch (IOException e) {
-        logger.error("FTP with SSL/TLS - " + STATUS_FAILED);
-        logger.debug(Arrays.toString(e.getStackTrace()));
+        System.out.println("FTP with SSL/TLS - " + STATUS_FAILED);
       }
     }
     // SFTP
     if (doSftp) {
       try {
-        logger.info("SFTP");
-        sftp(ftpServer, sftpPort, ftpUser, ftpPassword);
-        logger.info("SFTP - " + STATUS_OK);
+        System.out.println("===== SFTP =====");
+        sftp(ftpServer, sftpPort, ftpUser, ftpPassword, verbose);
+        System.out.println("SFTP - " + STATUS_OK);
       } catch (IOException e) {
-        logger.error("SFTP - " + STATUS_FAILED);
-        logger.debug(Arrays.toString(e.getStackTrace()));
+        System.out.println("SFTP - " + STATUS_FAILED);
       }
     }
   }

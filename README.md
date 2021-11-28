@@ -30,7 +30,6 @@ mvn clean package
 
 ```bash
 java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d] [-fo] [-fso] [-sfo]
- -d,--debug               Enable debug output
  -fo,--ftp-only           Make request for plain FTP only
  -fso,--ftps-only         Make request for FTPs only
  -n,--port-number <arg>   FTP Port
@@ -38,18 +37,42 @@ java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u user
  -s,--server <arg>        Server DNS address or IP
  -sfo,--sftp-only         Make request for SFTP only
  -u,--user <arg>          FTP Username
+ -v,--verbose             Enable verbose output
 ```
 
-Пример вывода
+Пример вывода 
 
 ```bash
 java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
-[main] INFO tech.isaev.ftptest.Main - Connect as user to 127.0.0.1:21
-[main] INFO tech.isaev.ftptest.Main - Plain FTP
-[main] ERROR tech.isaev.ftptest.Main - Plain FTP - [31mFAILED[0m
-[main] INFO tech.isaev.ftptest.Main - FTP with SSL/TLS
-[main] ERROR tech.isaev.ftptest.Main - FTP with SSL/TLS - [31mFAILED[0m
-[main] INFO tech.isaev.ftptest.Main - SFTP
-[main] INFO net.schmizz.sshj.transport.random.JCERandom - Creating new SecureRandom.
-[main] ERROR tech.isaev.ftptest.Main - SFTP - [31mFAILED[0m
+Connect as username to 127.0.0.1:21 FTP(s) and to 127.0.0.1:22 SFTP
+===== Plain FTP =====
+Plain FTP - FAILED
+===== FTP with SSL/TLS =====
+FTP with SSL/TLS - FAILED
+===== SFTP =====
+SFTP - OK
+```
+
+Пример вывода с `-v`
+
+```bash
+java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
+Connect as username to 127.0.0.1:21 FTP(s) and to 127.0.0.1:22 SFTP
+===== Plain FTP =====
+FTP: Init FTP Client
+FTP: Connect to FTP
+Plain FTP - FAILED
+===== FTP with SSL/TLS =====
+FTPS: Init FTPS Client
+FTPS: Connect to FTPS
+FTP with SSL/TLS - FAILED
+===== SFTP =====
+SFTP: Init SSH Client
+SFTP: Connect to SSH
+SFTP: Login to SFTP
+SFTP: Init SFTP Client
+SFTP: ls /
+SFTP: Disconnect from SFTP
+SFTP: Disconnect from SSH
+SFTP - OK
 ```
