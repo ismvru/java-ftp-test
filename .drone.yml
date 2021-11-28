@@ -46,7 +46,8 @@ steps:
       event:
         - tag
     commands:
-      - mvn -f pom-1.8.xml clean install -B
+      - cp -f pom-1.8.xml pom.xml
+      - mvn clean install -B
       - mvn deploy -B -gs settings.xml
 
   - name: Build and deploy JAR - JDK11
@@ -55,7 +56,8 @@ steps:
       event:
         - tag
     commands:
-      - mvn -f pom-11.xml clean install -B
+      - cp -f pom-11.xml pom.xml
+      - mvn clean install -B
       - mvn deploy -B -gs settings.xml
 
   - name: Build and deploy JAR - JDK17
@@ -64,7 +66,8 @@ steps:
       event:
         - tag
     commands:
-      - mvn -f pom-17.xml clean install -B
+      - cp -f pom-17.xml pom.xml
+      - mvn clean install -B
       - mvn deploy -B -gs settings.xml
 
   - name: send tg message
