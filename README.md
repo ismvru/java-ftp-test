@@ -15,17 +15,18 @@
 
 ## Сборка
 
-Так как у нас 2 LTS релиза Java (8 и 11) - собираем под оба два
+Так как у нас 3 LTS релиза Java (8, 11 и 17) - собираем под все
 
 TODO: [ ] Убрать Java 8 после марта 2022 г.
 
 TODO: [ ] Убрать Java 11 после сентября 2023 г.
 
-TODO: [ ] Добавить Java 17 после того, как станет доступен Docker образ maven с Java 17.
+TODO: [x] Добавить Java 17 после того, как станет доступен Docker образ maven с Java 17.
 
 ```bash
 mvn -f pom-1.8.xml clean package  # Java 8
-mvn -f pom-11.xml clean package  # Java 1
+mvn -f pom-11.xml clean package  # Java 11
+mvn -f pom-17.xml clean package  # Java 17
 ```
 
 ## Артефакты

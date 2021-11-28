@@ -41,7 +41,7 @@ steps:
       - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"><servers><server><id>'$REPO_ID'</id><username>'$REPO_USERNAME'</username><password>'$REPO_PASSWORD'</password></server></servers></settings>' > settings.xml
 
   - name: Build and deploy JAR - JDK8
-    image: maven:3-jdk-8
+    image: maven:3-openjdk-8
     when:
       event:
         - tag
@@ -50,12 +50,21 @@ steps:
       - mvn deploy -B -gs settings.xml
 
   - name: Build and deploy JAR - JDK11
-    image: maven:3-jdk-11
+    image: maven:3-openjdk-11
     when:
       event:
         - tag
     commands:
       - mvn -f pom-11.xml clean install -B
+      - mvn deploy -B -gs settings.xml
+
+  - name: Build and deploy JAR - JDK11
+    image: maven:3-openjdk-17
+    when:
+      event:
+        - tag
+    commands:
+      - mvn -f pom-17.xml clean install -B
       - mvn deploy -B -gs settings.xml
 
   - name: send tg message
