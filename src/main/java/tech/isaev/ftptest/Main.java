@@ -20,8 +20,10 @@ public class Main {
   public static final String ANSI_RESET = "\u001B[0m";
   public static final String ANSI_RED = "\u001B[31m";
   public static final String ANSI_GREEN = "\u001B[32m";
+  public static final String ANSI_YELLOW = "\u001B[33m";
   public static final String STATUS_FAILED = ANSI_RED + "FAILED" + ANSI_RESET;
   public static final String STATUS_OK = ANSI_GREEN + "OK" + ANSI_RESET;
+  public static final String STATUS_SKIPPED = ANSI_YELLOW + "SKIPPED" + ANSI_RESET;
 
   // Plain FTP
   private static void ftp(String server, Integer port,
@@ -197,40 +199,49 @@ public class Main {
       doFtp = Boolean.FALSE;
       doFtps = Boolean.FALSE;
     }
-    
+
     // Main app work
     System.out.println("Connect as " + ftpUser + " to " + ftpServer + ":"
         + ftpPort + " FTP(s) and to " + ftpServer + ":" + sftpPort + " SFTP");
 
     // Plain FTP
+    System.out.println("===== Plain FTP =====");
     if (doFtp) {
       try {
-        System.out.println("===== Plain FTP =====");
         ftp(ftpServer, ftpPort, ftpUser, ftpPassword, verbose);
         System.out.println("Plain FTP - " + STATUS_OK);
       } catch (IOException e) {
         System.out.println("Plain FTP - " + STATUS_FAILED);
       }
+    } else {
+      System.out.println("Plain FTP - " + STATUS_SKIPPED);
     }
+
     // FTP with SSL/TLS
+    System.out.println("===== FTP with SSL/TLS =====");
     if (doFtps) {
       try {
-        System.out.println("===== FTP with SSL/TLS =====");
         ftps(ftpServer, ftpPort, ftpUser, ftpPassword, verbose);
         System.out.println("FTP with SSL/TLS - " + STATUS_OK);
       } catch (IOException e) {
         System.out.println("FTP with SSL/TLS - " + STATUS_FAILED);
       }
+    } else {
+      System.out.println("FTP with SSL/TLS - " + STATUS_SKIPPED);
     }
+
     // SFTP
+    System.out.println("===== SFTP =====");
     if (doSftp) {
       try {
-        System.out.println("===== SFTP =====");
         sftp(ftpServer, sftpPort, ftpUser, ftpPassword, verbose);
         System.out.println("SFTP - " + STATUS_OK);
       } catch (IOException e) {
         System.out.println("SFTP - " + STATUS_FAILED);
       }
+    } else {
+      System.out.println("SFTP - " + STATUS_SKIPPED);
     }
+
   }
 }
