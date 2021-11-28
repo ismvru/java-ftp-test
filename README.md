@@ -15,21 +15,30 @@
 
 ## Сборка
 
+Так как у нас 2 LTS релиза Java (8 и 11) - собираем под оба два
+
+TODO: [ ] Убрать Java 8 после марта 2022 г.
+
+TODO: [ ] Убрать Java 11 после сентября 2023 г.
+
+TODO: [ ] Добавить Java 17 после того, как станет доступен Docker образ maven с Java 17.
+
 ```bash
-mvn clean package
+mvn -f pom-1.8.xml clean package  # Java 8
+mvn -f pom-11.xml clean package  # Java 1
 ```
 
 ## Артефакты
 
-* `target/ftptest-VERSION-jar-with-dependencies.jar` - JAR со всеми зависимостями
-* `target/ftptest-VERSION.jar` - JAR без зависимостей
+* `target/ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar` - JAR со всеми зависимостями
+* `target/ftptest-VERSION-JAVA_VERSION.jar` - JAR без зависимостей
 
 **WARN** для использования JAR без зависимостей нужно, что бы в classpath были все зависимости из `pom.xml` (см. project.dependencies)
 
 ## Использование
 
 ```bash
-java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d] [-fo] [-fso] [-sfo]
+java -jar ./ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d] [-fo] [-fso] [-sfo]
  -fo,--ftp-only           Make request for plain FTP only
  -fso,--ftps-only         Make request for FTPs only
  -n,--port-number <arg>   FTP Port
@@ -43,7 +52,7 @@ java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u user
 Пример вывода
 
 ```bash
-java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
+java -jar ./ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
 Connect as username to 127.0.0.1:21 FTP(s) and to 127.0.0.1:22 SFTP
 ===== FTP =====
 FTP - FAILED
@@ -57,7 +66,7 @@ SFTP - OK
 Пример вывода с `-v`
 
 ```bash
-java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
+java -jar ./ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
 Connect as username to 127.0.0.1:21 FTP(s) and to 127.0.0.1:22 SFTP
 ===== FTP =====
 FTP: Init FTP Client
