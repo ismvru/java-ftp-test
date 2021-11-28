@@ -13,7 +13,17 @@
 * FTPS
 * SFTP
 
+Docker image: `repo.isaev.tech/java-ftp-test:TAG`
+
+Docker image TAG:
+
+* `8`, `VERSION-8` - Образ на основе `openjdk:8-slim`
+* `11`, `VERSION-11` - Образ на основе `openjdk:11-slim`
+* `latest`, `17`, `VERSION-17` - Образ на основе `openjdk:17-slim`
+
 ## Сборка
+
+### Java
 
 Так как у нас 3 LTS релиза Java (8, 11 и 17) - собираем под все
 
@@ -29,6 +39,16 @@ mvn -f pom-11.xml clean package  # Java 11
 mvn -f pom-17.xml clean package  # Java 17
 ```
 
+### Docker
+
+Так как у нас 3 LTS релиза Java (8, 11 и 17) - собираем под все
+
+```bash
+docker build . -f Dockerfile-1.8  # Java 8
+docker build . -f Dockerfile-11  # Java 11
+docker build . -f Dockerfile-17  # Java 17
+```
+
 ## Артефакты
 
 * `target/ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar` - JAR со всеми зависимостями
@@ -37,6 +57,8 @@ mvn -f pom-17.xml clean package  # Java 17
 **WARN** для использования JAR без зависимостей нужно, что бы в classpath были все зависимости из `pom.xml` (см. project.dependencies)
 
 ## Использование
+
+TIP! Использование в Docker аналогично, но вместо `java -jar ./ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar` указывается `docker run -it IMAGE:TAG`
 
 ```bash
 java -jar ./ftptest-VERSION-JAVA_VERSION-jar-with-dependencies.jar -s ftp.example.com -u username -p password [-n 2121] [-d] [-fo] [-fso] [-sfo]
