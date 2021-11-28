@@ -1,0 +1,4 @@
+FROM openjdk:8-slim
+COPY target/ftptest*1.8-jar-with-dependencies.jar /app.jar
+ENTRYPOINT [ "java", "-jar", "/app.jar" ]
+CMD ["-h"]
