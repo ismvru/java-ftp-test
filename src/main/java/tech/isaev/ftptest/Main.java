@@ -26,19 +26,19 @@ public class Main {
   // Plain FTP
   private static void ftp(String server, Integer port,
                           String user, String password, Boolean verbose) throws IOException {
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTP: Init FTP Client");
     }
     FTPClient ftpClient = new FTPClient();
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTP: Connect to FTP");
     }
     ftpClient.connect(server, port);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTP: Login to FTP");
     }
     ftpClient.login(user, password);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTP: Disconnect from FTP");
     }
     ftpClient.disconnect();
@@ -47,19 +47,19 @@ public class Main {
   // FTP with SSL
   private static void ftps(String server, Integer port,
                            String user, String password, Boolean verbose) throws IOException {
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTPS: Init FTPS Client");
     }
     FTPSClient ftpsClient = new FTPSClient(true);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTPS: Connect to FTPS");
     }
     ftpsClient.connect(server, port);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTPS: Login to FTPS");
     }
     ftpsClient.login(user, password);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("FTPS: Disconnect from FTPS");
     }
     ftpsClient.disconnect();
@@ -68,34 +68,34 @@ public class Main {
   // SFTP (SSH)
   private static void sftp(String server, Integer port,
                            String user, String password, Boolean verbose) throws IOException {
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: Init SSH Client");
     }
     SSHClient sshClient = new SSHClient();
     sshClient.setTimeout(5);
     sshClient.setConnectTimeout(5);
     sshClient.addHostKeyVerifier(new PromiscuousVerifier());
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: Connect to SSH");
     }
     sshClient.connect(server, port);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: Login to SFTP");
     }
     sshClient.authPassword(user, password);
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: Init SFTP Client");
     }
     SFTPClient sftpClient = sshClient.newSFTPClient();
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: ls /");
     }
     sftpClient.ls("/");
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: Disconnect from SFTP");
     }
     sftpClient.close();
-    if (verbose) {
+    if (Boolean.TRUE.equals(verbose)) {
       System.out.println("SFTP: Disconnect from SSH");
     }
     sshClient.close();
