@@ -31,8 +31,6 @@ TODO: [ ] Убрать Java 8 после марта 2022 г.
 
 TODO: [ ] Убрать Java 11 после сентября 2023 г.
 
-TODO: [x] Добавить Java 17 после того, как станет доступен Docker образ maven с Java 17.
-
 ```bash
 mvn -f pom-1.8.xml clean package  # Java 8
 mvn -f pom-11.xml clean package  # Java 11
