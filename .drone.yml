@@ -46,7 +46,16 @@ steps:
       event:
         - tag
     commands:
-      - mvn clean install -B
+      - mvn -f pom-1.8.xml clean install -B
+      - mvn deploy -B -gs settings.xml
+
+  - name: Build and deploy JAR - JDK11
+    image: maven:3-jdk-11
+    when:
+      event:
+        - tag
+    commands:
+      - mvn -f pom-11.xml clean install -B
       - mvn deploy -B -gs settings.xml
 
   - name: send tg message
