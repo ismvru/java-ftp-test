@@ -45,12 +45,13 @@ java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u user
 ```bash
 java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
 Connect as username to 127.0.0.1:21 FTP(s) and to 127.0.0.1:22 SFTP
-===== Plain FTP =====
-Plain FTP - FAILED
-===== FTP with SSL/TLS =====
-FTP with SSL/TLS - FAILED
+===== FTP =====
+FTP - FAILED
+===== FTPS =====
+FTPS - FAILED
 ===== SFTP =====
 SFTP - OK
+
 ```
 
 Пример вывода с `-v`
@@ -58,14 +59,14 @@ SFTP - OK
 ```bash
 java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
 Connect as username to 127.0.0.1:21 FTP(s) and to 127.0.0.1:22 SFTP
-===== Plain FTP =====
+===== FTP =====
 FTP: Init FTP Client
 FTP: Connect to FTP
-Plain FTP - FAILED
-===== FTP with SSL/TLS =====
+FTP - FAILED
+===== FTPS =====
 FTPS: Init FTPS Client
 FTPS: Connect to FTPS
-FTP with SSL/TLS - FAILED
+FTPS - FAILED
 ===== SFTP =====
 SFTP: Init SSH Client
 SFTP: Connect to SSH
