@@ -24,24 +24,27 @@ public class Main {
   public static final String STATUS_FAILED = ANSI_RED + "FAILED" + ANSI_RESET;
   public static final String STATUS_OK = ANSI_GREEN + "OK" + ANSI_RESET;
   public static final String STATUS_SKIPPED = ANSI_YELLOW + "SKIPPED" + ANSI_RESET;
+  public static final String ACTION_FTP = "FTP";
+  public static final String ACTION_FTPS = "FTPS";
+  public static final String ACTION_SFTP = "SFTP";
 
   // Plain FTP
   private static void ftp(String server, Integer port,
                           String user, String password, Boolean verbose) throws IOException {
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTP: Init FTP Client");
+      System.out.println(ACTION_FTP + ": Init FTP Client");
     }
     FTPClient ftpClient = new FTPClient();
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTP: Connect to FTP");
+      System.out.println(ACTION_FTP + ": Connect to FTP");
     }
     ftpClient.connect(server, port);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTP: Login to FTP");
+      System.out.println(ACTION_FTP + ": Login to FTP");
     }
     ftpClient.login(user, password);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTP: Disconnect from FTP");
+      System.out.println(ACTION_FTP + ": Disconnect from FTP");
     }
     ftpClient.disconnect();
   }
@@ -50,19 +53,19 @@ public class Main {
   private static void ftps(String server, Integer port,
                            String user, String password, Boolean verbose) throws IOException {
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTPS: Init FTPS Client");
+      System.out.println(ACTION_FTPS + ": Init FTPS Client");
     }
     FTPSClient ftpsClient = new FTPSClient(true);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTPS: Connect to FTPS");
+      System.out.println(ACTION_FTPS + ": Connect to FTPS");
     }
     ftpsClient.connect(server, port);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTPS: Login to FTPS");
+      System.out.println(ACTION_FTPS + ": Login to FTPS");
     }
     ftpsClient.login(user, password);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("FTPS: Disconnect from FTPS");
+      System.out.println(ACTION_FTPS + ": Disconnect from FTPS");
     }
     ftpsClient.disconnect();
   }
@@ -71,34 +74,34 @@ public class Main {
   private static void sftp(String server, Integer port,
                            String user, String password, Boolean verbose) throws IOException {
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: Init SSH Client");
+      System.out.println(ACTION_SFTP + ": Init SSH Client");
     }
     SSHClient sshClient = new SSHClient();
     sshClient.setTimeout(5);
     sshClient.setConnectTimeout(5);
     sshClient.addHostKeyVerifier(new PromiscuousVerifier());
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: Connect to SSH");
+      System.out.println(ACTION_SFTP + ": Connect to SSH");
     }
     sshClient.connect(server, port);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: Login to SFTP");
+      System.out.println(ACTION_SFTP + ": Login to SFTP");
     }
     sshClient.authPassword(user, password);
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: Init SFTP Client");
+      System.out.println(ACTION_SFTP + ": Init SFTP Client");
     }
     SFTPClient sftpClient = sshClient.newSFTPClient();
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: ls /");
+      System.out.println(ACTION_SFTP + ": ls /");
     }
     sftpClient.ls("/");
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: Disconnect from SFTP");
+      System.out.println(ACTION_SFTP + ": Disconnect from SFTP");
     }
     sftpClient.close();
     if (Boolean.TRUE.equals(verbose)) {
-      System.out.println("SFTP: Disconnect from SSH");
+      System.out.println(ACTION_SFTP + ": Disconnect from SSH");
     }
     sshClient.close();
   }
@@ -205,42 +208,42 @@ public class Main {
         + ftpPort + " FTP(s) and to " + ftpServer + ":" + sftpPort + " SFTP");
 
     // Plain FTP
-    System.out.println("===== Plain FTP =====");
+    System.out.println("===== " + ACTION_FTP + " =====");
     if (doFtp) {
       try {
         ftp(ftpServer, ftpPort, ftpUser, ftpPassword, verbose);
-        System.out.println("Plain FTP - " + STATUS_OK);
+        System.out.println(ACTION_FTP + " - " + STATUS_OK);
       } catch (IOException e) {
-        System.out.println("Plain FTP - " + STATUS_FAILED);
+        System.out.println(ACTION_FTP + " - " + STATUS_FAILED);
       }
     } else {
-      System.out.println("Plain FTP - " + STATUS_SKIPPED);
+      System.out.println(ACTION_FTP + " - " + STATUS_SKIPPED);
     }
 
     // FTP with SSL/TLS
-    System.out.println("===== FTP with SSL/TLS =====");
+    System.out.println("===== " + ACTION_FTPS + " =====");
     if (doFtps) {
       try {
         ftps(ftpServer, ftpPort, ftpUser, ftpPassword, verbose);
-        System.out.println("FTP with SSL/TLS - " + STATUS_OK);
+        System.out.println(ACTION_FTPS + " - " + STATUS_OK);
       } catch (IOException e) {
-        System.out.println("FTP with SSL/TLS - " + STATUS_FAILED);
+        System.out.println(ACTION_FTPS + " - " + STATUS_FAILED);
       }
     } else {
-      System.out.println("FTP with SSL/TLS - " + STATUS_SKIPPED);
+      System.out.println(ACTION_FTPS + " - " + STATUS_SKIPPED);
     }
 
     // SFTP
-    System.out.println("===== SFTP =====");
+    System.out.println("===== " + ACTION_SFTP + " =====");
     if (doSftp) {
       try {
         sftp(ftpServer, sftpPort, ftpUser, ftpPassword, verbose);
-        System.out.println("SFTP - " + STATUS_OK);
+        System.out.println(ACTION_SFTP + " - " + STATUS_OK);
       } catch (IOException e) {
-        System.out.println("SFTP - " + STATUS_FAILED);
+        System.out.println(ACTION_SFTP + " - " + STATUS_FAILED);
       }
     } else {
-      System.out.println("SFTP - " + STATUS_SKIPPED);
+      System.out.println(ACTION_SFTP + " - " + STATUS_SKIPPED);
     }
 
   }
