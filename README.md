@@ -40,7 +40,7 @@ java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s ftp.example.com -u user
  -v,--verbose             Enable verbose output
 ```
 
-Пример вывода 
+Пример вывода
 
 ```bash
 java -jar ./ftptest-VERSION-jar-with-dependencies.jar -s 127.0.0.1 -u username -p password
