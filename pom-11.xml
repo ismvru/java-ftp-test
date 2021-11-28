@@ -6,7 +6,7 @@
 
     <groupId>tech.isaev</groupId>
     <artifactId>ftptest</artifactId>
-    <version>1.0.4-11</version>
+    <version>1.0.5-11</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
