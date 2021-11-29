@@ -35,6 +35,12 @@ steps:
     when:
       event:
         - tag
+    depends_on:
+      - Lint Docker
+      - Lint Yaml
+      - Lint Markdown
+      - Lint Java
+      - Analyze with sonar
     environment:
       REPO_ID: nexus
       REPO_USERNAME:
@@ -50,29 +56,11 @@ steps:
     when:
       event:
         - tag
+    depends_on:
+      - create settings.xml
     commands:
       - cp -f pom-1.8.xml pom.xml
-      - mvn clean install -B
-      - mvn deploy -B -gs settings.xml
-
-  - name: Build and deploy JAR - JDK11
-    image: maven:3-openjdk-11
-    when:
-      event:
-        - tag
-    commands:
-      - cp -f pom-11.xml pom.xml
-      - mvn clean install -B
-      - mvn deploy -B -gs settings.xml
-
-  - name: Build and deploy JAR - JDK17
-    image: maven:3-openjdk-17
-    when:
-      event:
-        - tag
-    commands:
-      - cp -f pom-17.xml pom.xml
-      - mvn clean install -B
+      - mvn install -B
       - mvn deploy -B -gs settings.xml
 
   - name: Build and push docker - JDK8
@@ -80,6 +68,8 @@ steps:
     when:
       event:
         - tag
+    depends_on:
+      - Build and deploy JAR - JDK8
     settings:
       username:
         from_secret: nexus_user
@@ -92,11 +82,25 @@ steps:
         - 8
         - ${DRONE_TAG}-8
 
+  - name: Build and deploy JAR - JDK11
+    image: maven:3-openjdk-11
+    when:
+      event:
+        - tag
+    depends_on:
+      - create settings.xml
+    commands:
+      - cp -f pom-11.xml pom.xml
+      - mvn install -B
+      - mvn deploy -B -gs settings.xml
+
   - name: Build and push docker - JDK11
     image: plugins/docker
     when:
       event:
         - tag
+    depends_on:
+      - Build and deploy JAR - JDK11
     settings:
       username:
         from_secret: nexus_user
@@ -109,11 +113,25 @@ steps:
         - 11
         - ${DRONE_TAG}-11
 
+  - name: Build and deploy JAR - JDK17
+    image: maven:3-openjdk-17
+    when:
+      event:
+        - tag
+    depends_on:
+      - create settings.xml
+    commands:
+      - cp -f pom-17.xml pom.xml
+      - mvn install -B
+      - mvn deploy -B -gs settings.xml
+
   - name: Build and push docker - JDK17
     image: plugins/docker
     when:
       event:
         - tag
+    depends_on:
+      - Build and deploy JAR - JDK17
     settings:
       username:
         from_secret: nexus_user
