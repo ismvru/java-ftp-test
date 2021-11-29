@@ -149,12 +149,6 @@ steps:
         from_secret: tg_token
       to:
         from_secret: tg_to
-      message: >
-        {{#success build.status}}
-        Lint {{build.number}} succeeded.
-        {{else}}
-        Lint {{build.number}} failed.
-        {{/success}}
     depends_on:
       - Lint Docker
       - Lint Yaml
@@ -173,12 +167,6 @@ steps:
         from_secret: tg_token
       to:
         from_secret: tg_to
-      message: >
-        {{#success build.status}}
-        Build {{build.number}} succeeded.
-        {{else}}
-        Build {{build.number}} failed.
-        {{/success}}
     depends_on:
       - Build and deploy JAR - JDK8
       - Build and deploy JAR - JDK11
