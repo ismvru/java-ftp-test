@@ -59,9 +59,8 @@ steps:
     depends_on:
       - create settings.xml
     commands:
-      - cp -f pom-1.8.xml pom.xml
-      - mvn install -B
-      - mvn deploy -B -gs settings.xml
+      - mvn -f pom-1.8.xml install -B
+      - mvn -f pom-1.8.xml deploy -B -gs settings.xml
 
   - name: Build and push docker - JDK8
     image: plugins/docker
@@ -90,9 +89,8 @@ steps:
     depends_on:
       - create settings.xml
     commands:
-      - cp -f pom-11.xml pom.xml
-      - mvn install -B
-      - mvn deploy -B -gs settings.xml
+      - mvn -f pom-11.xml install -B
+      - mvn -f pom-11.xml deploy -B -gs settings.xml
 
   - name: Build and push docker - JDK11
     image: plugins/docker
@@ -121,9 +119,8 @@ steps:
     depends_on:
       - create settings.xml
     commands:
-      - cp -f pom-17.xml pom.xml
-      - mvn install -B
-      - mvn deploy -B -gs settings.xml
+      - mvn -f pom-17.xml install -B
+      - mvn -f pom-17.xml deploy -B -gs settings.xml
 
   - name: Build and push docker - JDK17
     image: plugins/docker
@@ -145,13 +142,50 @@ steps:
         - ${DRONE_TAG}-17
         - latest
 
-  - name: send tg message
+  - name: send tg message - Linters
     image: appleboy/drone-telegram
     settings:
       token:
         from_secret: tg_token
       to:
         from_secret: tg_to
+      message: >
+        {{#success build.status}}
+        Lint {{build.number}} succeeded.
+        {{else}}
+        Lint {{build.number}} failed.
+        {{/success}}
+    depends_on:
+      - Lint Docker
+      - Lint Yaml
+      - Lint Markdown
+      - Lint Java
+      - Analyze with sonar
+    when:
+      status:
+        - success
+        - failure
+
+  - name: send tg message - Build and push
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: tg_token
+      to:
+        from_secret: tg_to
+      message: >
+        {{#success build.status}}
+        Build {{build.number}} succeeded.
+        {{else}}
+        Build {{build.number}} failed.
+        {{/success}}
+    depends_on:
+      - Build and deploy JAR - JDK8
+      - Build and deploy JAR - JDK11
+      - Build and deploy JAR - JDK17
+      - Build and push docker - JDK8
+      - Build and push docker - JDK11
+      - Build and push docker - JDK17
     when:
       status:
         - success
