@@ -68,7 +68,7 @@ pipeline {
 
     stage('Get jars - Java 8') {
       steps {
-        archiveArtifacts 'target/*.?ar'
+        archiveArtifacts 'target/*.jar'
       }
     }
 
@@ -86,7 +86,7 @@ pipeline {
 
     stage('Get jars - Java 11') {
       steps {
-        archiveArtifacts 'target/*.?ar'
+        archiveArtifacts 'target/*.jar'
       }
     }
 
@@ -104,7 +104,7 @@ pipeline {
 
     stage('Get jars - Java 17') {
       steps {
-        archiveArtifacts 'target/*.?ar'
+        archiveArtifacts 'target/*.jar'
       }
     }
 
