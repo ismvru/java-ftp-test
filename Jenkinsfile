@@ -108,5 +108,11 @@ pipeline {
       }
     }
 
+    stage('Send tg message') {
+      steps {
+        telegramSend(message: '#Jenkins #Finish Job ${env.JOB_NAME} Branch ${env.BRANCH_NAME} Build ${env.BUILD_ID}  ${env.BUILD_URL}', chatId: 658368779)
+      }
+    }
+
   }
 }
