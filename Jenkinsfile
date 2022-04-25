@@ -63,11 +63,6 @@ pipeline {
       }
       steps {
         sh 'mvn -f pom-1.8.xml clean install -B'
-      }
-    }
-
-    stage('Get jars - Java 8') {
-      steps {
         archiveArtifacts 'target/*.jar'
       }
     }
@@ -81,11 +76,6 @@ pipeline {
       }
       steps {
         sh 'mvn -f pom-11.xml install -B'
-      }
-    }
-
-    stage('Get jars - Java 11') {
-      steps {
         archiveArtifacts 'target/*.jar'
       }
     }
@@ -99,11 +89,6 @@ pipeline {
       }
       steps {
         sh 'mvn -f pom-17.xml clean install -B'
-      }
-    }
-
-    stage('Get jars - Java 17') {
-      steps {
         archiveArtifacts 'target/*.jar'
       }
     }
