@@ -95,5 +95,11 @@ pipeline {
       }
     }
 
+    stage('Get artifacts') {
+      steps {
+        archiveArtifacts 'target/*.?ar'
+      }
+    }
+
   }
 }
