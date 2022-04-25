@@ -54,48 +54,55 @@ pipeline {
       }
     }
 
-    stage('Build JARs') {
-      parallel {
-        stage('Java8') {
-          agent {
-            docker {
-              image 'maven:3-openjdk-8'
-            }
-
-          }
-          steps {
-            sh 'mvn -f pom-1.8.xml install -B'
-          }
-        }
-
-        stage('java11') {
-          agent {
-            docker {
-              image 'maven:3-openjdk-11'
-            }
-
-          }
-          steps {
-            sh 'mvn -f pom-11.xml install -B'
-          }
-        }
-
-        stage('java17') {
-          agent {
-            docker {
-              image 'maven:3-openjdk-17'
-            }
-
-          }
-          steps {
-            sh 'mvn -f pom-17.xml install -B'
-          }
+    stage('Java 8') {
+      agent {
+        docker {
+          image 'maven:3-openjdk-8'
         }
 
       }
+      steps {
+        sh 'mvn -f pom-1.8.xml clean install -B'
+      }
     }
 
-    stage('Get artifacts') {
+    stage('Get jars - Java 8') {
+      steps {
+        archiveArtifacts 'target/*.?ar'
+      }
+    }
+
+    stage('Java 11') {
+      agent {
+        docker {
+          image 'maven:3-openjdk-11'
+        }
+
+      }
+      steps {
+        sh 'mvn -f pom-11.xml install -B'
+      }
+    }
+
+    stage('Get jars - Java 11') {
+      steps {
+        archiveArtifacts 'target/*.?ar'
+      }
+    }
+
+    stage('Java 17') {
+      agent {
+        docker {
+          image 'maven:3-openjdk-17'
+        }
+
+      }
+      steps {
+        sh 'mvn -f pom-17.xml clean install -B'
+      }
+    }
+
+    stage('Get jars - Java 17') {
       steps {
         archiveArtifacts 'target/*.?ar'
       }
