@@ -1,4 +1,4 @@
-name: Security scan
+name: SonarCloud
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
 jobs:
   scan-docker:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
