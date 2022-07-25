@@ -1,50 +1,23 @@
 # java-ftp-test
 
-[![Build Status](https://ci.isaev.tech/api/badges/IsaevTech/java-ftp-test/status.svg)](https://ci.isaev.tech/IsaevTech/java-ftp-test)
-
-[![Bugs](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=bugs&token=3fed23cafcd4fa893571f94b6d2e9717ec6b2c4d)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
-[![Code Smells](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=code_smells&token=3fed23cafcd4fa893571f94b6d2e9717ec6b2c4d)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
-[![Vulnerabilities](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=vulnerabilities&token=3fed23cafcd4fa893571f94b6d2e9717ec6b2c4d)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
-[![Quality Gate Status](https://sonar.isaev.tech/api/project_badges/measure?project=IsaevTech%3Ajava-ftp-test&metric=alert_status&token=3fed23cafcd4fa893571f94b6d2e9717ec6b2c4d)](https://sonar.isaev.tech/dashboard?id=IsaevTech%3Ajava-ftp-test)
-
 Проверяет, какой протокол мы используем
 
 * FTP
 * FTPS
 * SFTP
 
-Docker image: `repo.isaev.tech/java-ftp-test:TAG`
-
-Docker image TAG:
-
-* `8`, `VERSION-8` - Образ на основе `openjdk:8-slim`
-* `11`, `VERSION-11` - Образ на основе `openjdk:11-slim`
-* `latest`, `17`, `VERSION-17` - Образ на основе `openjdk:17-slim`
-
 ## Сборка
 
 ### Java
 
-Так как у нас 3 LTS релиза Java (8, 11 и 17) - собираем под все
-
-TODO: [ ] Убрать Java 8 после марта 2022 г.
-
-TODO: [ ] Убрать Java 11 после сентября 2023 г.
-
 ```bash
-mvn -f pom-1.8.xml clean package  # Java 8
-mvn -f pom-11.xml clean package  # Java 11
-mvn -f pom-17.xml clean package  # Java 17
+mvn clean package
 ```
 
 ### Docker
 
-Так как у нас 3 LTS релиза Java (8, 11 и 17) - собираем под все
-
 ```bash
-docker build . -f Dockerfile-1.8  # Java 8
-docker build . -f Dockerfile-11  # Java 11
-docker build . -f Dockerfile-17  # Java 17
+docker build .
 ```
 
 ## Артефакты

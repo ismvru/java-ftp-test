@@ -1,4 +1,4 @@
 FROM openjdk:17-slim
-COPY target/ftptest*17-jar-with-dependencies.jar /app.jar
+COPY target/ftptest*-jar-with-dependencies.jar /app.jar
 ENTRYPOINT [ "java", "-jar", "/app.jar" ]
 CMD ["-h"]
