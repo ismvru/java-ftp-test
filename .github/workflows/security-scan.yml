@@ -13,6 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
@@ -30,6 +36,9 @@ jobs:
           name: Depcheck report
           path: ${{github.workspace}}/reports
           retention-days: 5
+
+      - name: Build JAR
+        run: mvn -B clean package
 
       - name: Set up Docker Buildx
         id: buildx
