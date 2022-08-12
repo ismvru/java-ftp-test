@@ -30,7 +30,7 @@ public class Main {
 
   // Plain FTP
   private static void ftp(String server, Integer port,
-                          String user, String password, Boolean verbose) throws IOException {
+      String user, String password, Boolean verbose) throws IOException {
     if (Boolean.TRUE.equals(verbose)) {
       System.out.println(ACTION_FTP + ": Init FTP Client");
     }
@@ -51,7 +51,7 @@ public class Main {
 
   // FTP with SSL
   private static void ftps(String server, Integer port,
-                           String user, String password, Boolean verbose) throws IOException {
+      String user, String password, Boolean verbose) throws IOException {
     if (Boolean.TRUE.equals(verbose)) {
       System.out.println(ACTION_FTPS + ": Init FTPS Client");
     }
@@ -72,7 +72,7 @@ public class Main {
 
   // SFTP (SSH)
   private static void sftp(String server, Integer port,
-                           String user, String password, Boolean verbose) throws IOException {
+      String user, String password, Boolean verbose) throws IOException {
     if (Boolean.TRUE.equals(verbose)) {
       System.out.println(ACTION_SFTP + ": Init SSH Client");
     }
