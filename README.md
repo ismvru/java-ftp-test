@@ -1,5 +1,12 @@
 # java-ftp-test
 
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ismvru_java-ftp-test&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ismvru_java-ftp-test)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ismvru_java-ftp-test&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ismvru_java-ftp-test)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ismvru_java-ftp-test&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ismvru_java-ftp-test)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ismvru_java-ftp-test&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ismvru_java-ftp-test)
+![Docker Pulls](https://img.shields.io/docker/pulls/ismv/java-ftp-test)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/ismv/java-ftp-test/latest)
+
 Проверяет, какой протокол мы используем
 
 * FTP
