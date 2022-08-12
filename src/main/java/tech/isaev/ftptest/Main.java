@@ -47,7 +47,6 @@ public class Main {
       System.out.println(ACTION_FTP + ": Disconnect from FTP");
     }
     ftpClient.disconnect();
-    ftpClient.close();
   }
 
   // FTP with SSL
@@ -69,7 +68,6 @@ public class Main {
       System.out.println(ACTION_FTPS + ": Disconnect from FTPS");
     }
     ftpsClient.disconnect();
-    ftpsClient.close();
   }
 
   // SFTP (SSH)
