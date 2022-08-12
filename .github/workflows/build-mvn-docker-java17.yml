@@ -1,4 +1,4 @@
-name: FTPTest CI
+name: Build Maven2 project and Docker image
 
 on:
   push:
@@ -47,3 +47,9 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/ftptest*-jar-with-dependencies.jar
